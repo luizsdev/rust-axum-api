@@ -1,17 +1,17 @@
-use sqlx::Executor;
+use sqlx::{query, Executor};
 
-use crate::pool::pool::pool;
+use crate::{handler::handler::BodyParams, pool::pool::pool};
 
-pub async fn get_service() -> String {
+pub async fn get_service(body: BodyParams) -> String {
     pool()
         .await
-        .execute(
-            "
-    INSERT INTO my_table (column1,column2) values ('god of','rust')
-    ",
-        )
+        .execute(query!(
+            "INSERT INTO my_table (column1,column2) VALUES ($1,$2)",
+            body.name,
+            body.email,
+        ))
         .await
         .expect("Couldnt execute query");
 
-    return String::from("query complete");
+    String::from("query complete")
 }

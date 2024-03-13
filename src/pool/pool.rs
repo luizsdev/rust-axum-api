@@ -10,5 +10,5 @@ pub async fn pool() -> Pool<Postgres> {
         .await
         .expect("Unable to connect to database");
 
-    return pool;
+    pool
 }
